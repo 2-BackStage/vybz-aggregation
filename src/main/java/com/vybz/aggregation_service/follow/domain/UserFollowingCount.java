@@ -27,10 +27,18 @@ public class UserFollowingCount {
     @Field(name = "total_following_count")
     private Integer totalFollowingCount;
 
+    public void increaseCount() {
+        this.totalFollowingCount++;
+    }
+
+    public void decreaseCount() {
+        this.totalFollowingCount = Math.max(0, this.totalFollowingCount - 1);
+    }
+
     @Builder
     public UserFollowingCount(String id, String userUuid, Integer totalFollowingCount) {
         this.id = id;
         this.userUuid = userUuid;
-        this.totalFollowingCount = totalFollowingCount;
+        this.totalFollowingCount = totalFollowingCount != null ? totalFollowingCount : 0;
     }
 }

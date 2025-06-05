@@ -27,10 +27,18 @@ public class BuskerFollowerCount {
     @Field(name = "total_follower_count")
     private Integer totalFollowerCount;
 
+    public void increaseCount() {
+        this.totalFollowerCount++;
+    }
+
+    public void decreaseCount() {
+        this.totalFollowerCount = Math.max(0, this.totalFollowerCount - 1);
+    }
+
     @Builder
     public BuskerFollowerCount(String id, String buskerUuid, Integer totalFollowerCount) {
         this.id = id;
         this.buskerUuid = buskerUuid;
-        this.totalFollowerCount = totalFollowerCount;
+        this.totalFollowerCount = totalFollowerCount != null ? totalFollowerCount : 0;
     }
 }
