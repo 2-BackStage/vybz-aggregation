@@ -20,7 +20,7 @@ public class FollowCountEventConsumer {
 
     @KafkaListener(
             topics = "create-follow",
-            groupId = "aggregation-group",
+            groupId = "follow-count-group",
             containerFactory = "followKafkaListenerContainerFactory"
     )
     public void consumeFollowEvent(FollowCountEvent followCountEvent) {
@@ -54,7 +54,7 @@ public class FollowCountEventConsumer {
 
     @KafkaListener(
             topics = "delete-follow",
-            groupId = "aggregation-group",
+            groupId = "follow-count-group",
             containerFactory = "followKafkaListenerContainerFactory"
     )
     public void consumeUnfollowEvent(FollowCountEvent followCountEvent) {

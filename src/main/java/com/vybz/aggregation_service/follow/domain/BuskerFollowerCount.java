@@ -32,7 +32,9 @@ public class BuskerFollowerCount {
     }
 
     public void decreaseCount() {
-        this.totalFollowerCount = Math.max(0, this.totalFollowerCount - 1);
+        if (this.totalFollowerCount > 0) {
+            this.totalFollowerCount--;
+        }
     }
 
     @Builder
