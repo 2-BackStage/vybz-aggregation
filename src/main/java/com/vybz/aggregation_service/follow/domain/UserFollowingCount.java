@@ -32,7 +32,9 @@ public class UserFollowingCount {
     }
 
     public void decreaseCount() {
-        this.totalFollowingCount = Math.max(0, this.totalFollowingCount - 1);
+        if (this.totalFollowingCount > 0) {
+            this.totalFollowingCount--;
+        }
     }
 
     @Builder
