@@ -48,6 +48,8 @@ public enum BaseResponseStatus {
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 900, "Internal server error"),
     SSE_SEND_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 901, "알림 전송에 실패하였습니다."),
     LOGIN_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 902, "로그인에 실패하였습니다."),
+    COMMENT_BATCH_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 903, "댓글 수 배치 실행에 실패하였습니다."),
+
 
 
     /**
