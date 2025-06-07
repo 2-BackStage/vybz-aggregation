@@ -27,7 +27,10 @@ public class CommonKafkaConfig {
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
-        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, FollowCountEvent.class);
+        /*
+        이부분있으면 FollowCountEvent 로만 매핑을 해줌
+         */
+//        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, FollowCountEvent.class);
 
         return props;
     }
