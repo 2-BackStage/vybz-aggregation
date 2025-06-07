@@ -49,6 +49,8 @@ public enum BaseResponseStatus {
     SSE_SEND_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 901, "알림 전송에 실패하였습니다."),
     LOGIN_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 902, "로그인에 실패하였습니다."),
     COMMENT_BATCH_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 903, "댓글 수 배치 실행에 실패하였습니다."),
+    COMMENTLIKE_BATCH_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 904, "댓글 좋아요 수 배치 실행에 실패하였습니다."),
+    FEEDLIKE_BATCH_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 905, "피드 좋아요 수 배치 실행에 실패하였습니다."),
 
 
 
