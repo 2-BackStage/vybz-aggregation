@@ -23,7 +23,7 @@ public class CommentLikeCountWriter implements ItemWriter<CommentLikeCount> {
             commentLikeCountRepository.findByCommentId(commentLikeCount.getCommentId())
                 .ifPresentOrElse(
                     existing -> {
-                        existing.updateCount(commentLikeCount.getTotalLikeCount());
+                        existing.overwrite(commentLikeCount);
                         commentLikeCountRepository.save(existing);
                     },
                     () -> {

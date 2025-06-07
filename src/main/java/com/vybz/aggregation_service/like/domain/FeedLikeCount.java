@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
@@ -19,6 +20,7 @@ public class FeedLikeCount {
     /**
      * 피드 ID
      */
+    @Indexed(unique = true)
     private String feedId;
 
     /**
@@ -61,5 +63,10 @@ public class FeedLikeCount {
         } else {
             return String.valueOf(count);
         }
+    }
+    public void overwrite(FeedLikeCount feedLikeCount) {
+        this.totalLikeCount = feedLikeCount.getTotalLikeCount();
+        this.displayLikeCount = feedLikeCount.getDisplayLikeCount();
+        this.updatedAt = feedLikeCount.getUpdatedAt();
     }
 }

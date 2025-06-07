@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
@@ -19,6 +20,7 @@ public class CommentLikeCount {
     /**
      * 댓글 ID
      */
+    @Indexed(unique = true)
     private String commentId;
 
     /**
@@ -63,6 +65,12 @@ public class CommentLikeCount {
         } else {
             return String.valueOf(count);
         }
+    }
+
+    public void overwrite(CommentLikeCount commentLikeCount) {
+        this.totalLikeCount = commentLikeCount.getTotalLikeCount();
+        this.displayLikeCount = commentLikeCount.getDisplayLikeCount();
+        this.updatedAt = commentLikeCount.getUpdatedAt();
     }
 
 }

@@ -23,7 +23,7 @@ public class FeedLikeCountWriter implements ItemWriter<FeedLikeCount> {
             feedLikeCountRepository.findByFeedId(feedLikeCount.getFeedId())
                 .ifPresentOrElse(
                     existing -> {
-                        existing.updateCount(feedLikeCount.getTotalLikeCount());
+                        existing.overwrite(feedLikeCount);
                         feedLikeCountRepository.save(existing);
                     },
                     () -> {
