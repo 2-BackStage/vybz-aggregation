@@ -26,7 +26,7 @@ public class FollowCountEventConfig {
         );
     }
 
-    @Bean
+    @Bean(name = "followKafkaListenerContainerFactory")
     public ConcurrentKafkaListenerContainerFactory<String, FollowCountEvent> followKafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, FollowCountEvent> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(followCountEventConsumerFactory());
