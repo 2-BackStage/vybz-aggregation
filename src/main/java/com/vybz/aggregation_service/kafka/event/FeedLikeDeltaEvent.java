@@ -1,6 +1,7 @@
 package com.vybz.aggregation_service.kafka.event;
 
-import com.vybz.aggregation_service.comment.domain.FeedType;
+
+import com.vybz.aggregation_service.like.domain.FeedType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,9 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentCountEvent {
+public class FeedLikeDeltaEvent {
 
     private String feedId;
     private FeedType feedType;
-    private int totalCount;
+    private int delta;
 }

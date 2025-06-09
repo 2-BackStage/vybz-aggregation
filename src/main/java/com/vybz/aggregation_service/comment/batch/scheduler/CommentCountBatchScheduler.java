@@ -19,6 +19,7 @@ public class CommentCountBatchScheduler {
     private final JobRegistry jobRegistry;
 
     @Scheduled(cron = "0 * * * * *")
+
     public void runCommentCountJob(){
         try {
             Job job = jobRegistry.getJob("commentCountJob");

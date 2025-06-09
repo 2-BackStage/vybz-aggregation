@@ -1,6 +1,6 @@
 package com.vybz.aggregation_service.kafka.config;
 
-import com.vybz.aggregation_service.kafka.event.FeedLikeCountEvent;
+import com.vybz.aggregation_service.kafka.event.FeedLikeDeltaEvent;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
@@ -14,26 +14,26 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 @Configuration
 @RequiredArgsConstructor
-public class FeedLikeCountEventConfig {
+public class FeedLikeDeltaEventConfig {
 
     private final CommonKafkaConfig commonKafkaConfig;
 
     @Bean
-    public ConsumerFactory<String, FeedLikeCountEvent> feedLikeCountEventConsumerFactory() {
+    public ConsumerFactory<String, FeedLikeDeltaEvent> feedLikeDeltaEventConsumerFactory() {
         return new DefaultKafkaConsumerFactory<>(
                 commonKafkaConfig.commonConsumerConfigs(),
                 new StringDeserializer(),
                 new ErrorHandlingDeserializer<>(
-                        new JsonDeserializer<>(FeedLikeCountEvent.class, false)
+                        new JsonDeserializer<>(FeedLikeDeltaEvent.class, false)
                 )
         );
     }
 
-    @Bean(name = "feedLikeCountKafkaListenerContainerFactory")
-    public ConcurrentKafkaListenerContainerFactory<String, FeedLikeCountEvent> feedLikeKafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, FeedLikeCountEvent> factory =
+    @Bean(name = "feedLikeDeltaEventConcurrentKafkaListenerContainerFactory")
+    public ConcurrentKafkaListenerContainerFactory<String, FeedLikeDeltaEvent> feedLikeDeltaEventConcurrentKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, FeedLikeDeltaEvent> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(feedLikeCountEventConsumerFactory());
+        factory.setConsumerFactory(feedLikeDeltaEventConsumerFactory());
         return factory;
     }
 }
