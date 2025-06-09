@@ -7,6 +7,7 @@ import com.vybz.aggregation_service.follow.infrastructure.UserFollowingCountRepo
 import com.vybz.aggregation_service.kafka.event.FollowCountEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,10 @@ public class FollowCountEventConsumer {
 
     private final BuskerFollowerCountRepository buskerFollowerCountRepository;
     private final UserFollowingCountRepository userFollowingCountRepository;
+    private final StringRedisTemplate redisTemplate;
+
+    private static final String BUSKER_FOLLOWER_KEY = "busker:follower:queue";
+    private static final String USER_FOLLOWING_KEY = "user:following:queue";
 
     @KafkaListener(
             topics = "create-follow",
@@ -50,6 +55,9 @@ public class FollowCountEventConsumer {
         followingCount.increaseCount();
         userFollowingCountRepository.save(followingCount);
         log.info("✅ [사용자] uuid: {}, 팔로잉 수: {}", followingCount.getUserUuid(), followingCount.getTotalFollowingCount());
+
+        redisTemplate.opsForSet().add(BUSKER_FOLLOWER_KEY, buskerUuid);
+        redisTemplate.opsForSet().add(USER_FOLLOWING_KEY, userUuid);
     }
 
     @KafkaListener(
@@ -84,6 +92,9 @@ public class FollowCountEventConsumer {
         followingCount.decreaseCount();
         userFollowingCountRepository.save(followingCount);
         log.info("🛑 [사용자] uuid: {}, 팔로잉 수 감소 후: {}", followingCount.getUserUuid(), followingCount.getTotalFollowingCount());
+
+        redisTemplate.opsForSet().add(BUSKER_FOLLOWER_KEY, buskerUuid);
+        redisTemplate.opsForSet().add(USER_FOLLOWING_KEY, userUuid);
     }
 
 }

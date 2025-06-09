@@ -3,9 +3,13 @@ package com.vybz.aggregation_service.follow.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+
+import java.time.Instant;
 
 @Getter
 @NoArgsConstructor
@@ -27,6 +31,20 @@ public class BuskerFollowerCount {
     @Field(name = "total_follower_count")
     private Integer totalFollowerCount;
 
+    /**
+     * 생성일
+     */
+    @CreatedDate
+    @Field(name = "created_at")
+    private Instant createdAt;
+
+    /**
+     * 수정일
+     */
+    @LastModifiedDate
+    @Field(name = "updated_at")
+    private Instant updatedAt;
+
     public void increaseCount() {
         this.totalFollowerCount++;
     }
@@ -38,9 +56,11 @@ public class BuskerFollowerCount {
     }
 
     @Builder
-    public BuskerFollowerCount(String id, String buskerUuid, Integer totalFollowerCount) {
+    public BuskerFollowerCount(String id, String buskerUuid, Integer totalFollowerCount, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.buskerUuid = buskerUuid;
         this.totalFollowerCount = totalFollowerCount != null ? totalFollowerCount : 0;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 }
