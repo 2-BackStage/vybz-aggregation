@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentCountEvent {
-
+public class CommentDeltaEvent  {
     private String feedId;
+    private String commentId;
     private FeedType feedType;
-    private int totalCount;
+    private int delta;
 }

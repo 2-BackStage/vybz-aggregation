@@ -22,6 +22,10 @@ public class CommentCount {
     @Indexed(unique = true)
     private String feedId;
     /**
+     * 피드 타입
+     */
+    private FeedType feedType;
+    /**
      * 총 댓글 수
      */
     private Integer totalCommentCount;
@@ -39,11 +43,13 @@ public class CommentCount {
     @Builder
     public CommentCount(String id,
                         String feedId,
+                        FeedType feedType,
                         Integer totalCommentCount,
                         String displayCommentCount,
                         Instant updatedAt) {
         this.id = id;
         this.feedId = feedId;
+        this.feedType = feedType;
         this.totalCommentCount = totalCommentCount != null ? totalCommentCount : 0;
         this.displayCommentCount = displayCommentCount;
         this.updatedAt = updatedAt;
@@ -53,6 +59,14 @@ public class CommentCount {
         this.displayCommentCount = formatCount(this.totalCommentCount);
         this.updatedAt = Instant.now();
     }
+
+    public void setCount(int exactCount) {
+        this.totalCommentCount = Math.max(0, exactCount);
+        this.displayCommentCount = formatCount(this.totalCommentCount);
+        this.updatedAt = Instant.now();
+    }
+
+
 
     private String formatCount(int count) {
         if (count >= 1_000_000) {

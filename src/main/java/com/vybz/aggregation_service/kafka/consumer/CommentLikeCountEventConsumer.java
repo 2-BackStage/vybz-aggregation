@@ -25,10 +25,16 @@ public class CommentLikeCountEventConsumer {
             groupId = GROUP_ID,
             containerFactory = "commentLikeCountKafkaListenerContainerFactory"
     )
-    public void consumeCommentLikeCountEvent(CommentLikeCountEvent commentLikeCountEvent){
-        log.info("🔥 Kafka 댓글 좋아요 수 메시지 수신: {}", commentLikeCountEvent);
-        upsertCommentLikeCount(commentLikeCountEvent);
+    public void consumeCommentLikeCountEvent(CommentLikeCountEvent event) {
+        if (event.getDelta() == 0) {
+            log.info("🚫 [무시] delta=0 이벤트: commentId={}", event.getCommentId());
+            return;
+        }
+
+        log.info("🔥 Kafka 댓글 좋아요 수 메시지 수신: {}", event);
+        upsertCommentLikeCount(event);
     }
+
 
 
 
