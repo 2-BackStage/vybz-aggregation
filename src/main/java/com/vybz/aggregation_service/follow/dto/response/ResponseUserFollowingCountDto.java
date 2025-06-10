@@ -11,25 +11,25 @@ import lombok.NoArgsConstructor;
 public class ResponseUserFollowingCountDto {
 
     private String userUuid;
-    private int totalFollowingCount;
+    private int followerCount;
 
     @Builder
-    public ResponseUserFollowingCountDto(String userUuid, int totalFollowingCount) {
+    public ResponseUserFollowingCountDto(String userUuid, int followerCount) {
         this.userUuid = userUuid;
-        this.totalFollowingCount = totalFollowingCount;
+        this.followerCount = followerCount;
     }
 
     public static ResponseUserFollowingCountDto from(UserFollowingCount userFollowingCount) {
         return ResponseUserFollowingCountDto.builder()
                 .userUuid(userFollowingCount.getUserUuid())
-                .totalFollowingCount(userFollowingCount.getTotalFollowingCount())
+                .followerCount(userFollowingCount.getFollowingCount())
                 .build();
     }
 
     public ResponseUserFollowingCountVo toVo() {
         return ResponseUserFollowingCountVo.builder()
                 .userUuid(userUuid)
-                .totalFollowingCount(totalFollowingCount)
+                .followerCount(followerCount)
                 .build();
     }
 

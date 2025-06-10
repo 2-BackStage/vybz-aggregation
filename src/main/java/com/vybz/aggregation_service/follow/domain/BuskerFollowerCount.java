@@ -28,8 +28,8 @@ public class BuskerFollowerCount {
     /**
      * 총 팔로워 수
      */
-    @Field(name = "total_follower_count")
-    private Integer totalFollowerCount;
+    @Field(name = "follower_count")
+    private Integer followerCount;
 
     /**
      * 생성일
@@ -46,20 +46,20 @@ public class BuskerFollowerCount {
     private Instant updatedAt;
 
     public void increaseCount() {
-        this.totalFollowerCount++;
+        this.followerCount++;
     }
 
     public void decreaseCount() {
-        if (this.totalFollowerCount > 0) {
-            this.totalFollowerCount--;
+        if (this.followerCount > 0) {
+            this.followerCount--;
         }
     }
 
     @Builder
-    public BuskerFollowerCount(String id, String buskerUuid, Integer totalFollowerCount, Instant createdAt, Instant updatedAt) {
+    public BuskerFollowerCount(String id, String buskerUuid, Integer followerCount, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.buskerUuid = buskerUuid;
-        this.totalFollowerCount = totalFollowerCount != null ? totalFollowerCount : 0;
+        this.followerCount = followerCount != null ? followerCount : 0;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }

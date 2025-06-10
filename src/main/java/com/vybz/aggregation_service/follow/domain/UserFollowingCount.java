@@ -28,8 +28,8 @@ public class UserFollowingCount {
     /**
      * 총 팔로잉 수
      */
-    @Field(name = "total_following_count")
-    private Integer totalFollowingCount;
+    @Field(name = "following_count")
+    private Integer followingCount;
 
     /**
      * 생성일
@@ -46,20 +46,20 @@ public class UserFollowingCount {
     private Instant updatedAt;
 
     public void increaseCount() {
-        this.totalFollowingCount++;
+        this.followingCount++;
     }
 
     public void decreaseCount() {
-        if (this.totalFollowingCount > 0) {
-            this.totalFollowingCount--;
+        if (this.followingCount > 0) {
+            this.followingCount--;
         }
     }
 
     @Builder
-    public UserFollowingCount(String id, String userUuid, Integer totalFollowingCount, Instant createdAt, Instant updatedAt) {
+    public UserFollowingCount(String id, String userUuid, Integer followingCount, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.userUuid = userUuid;
-        this.totalFollowingCount = totalFollowingCount != null ? totalFollowingCount : 0;
+        this.followingCount = followingCount != null ? followingCount : 0;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }

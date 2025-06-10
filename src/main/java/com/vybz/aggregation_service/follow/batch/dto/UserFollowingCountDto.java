@@ -13,14 +13,14 @@ import java.time.Instant;
 public class UserFollowingCountDto {
 
     private String userUuid;
-    private Integer totalFollowingCount;
+    private Integer followingCount;
     private String displayFollowingCount;
     private Instant updatedAt;
 
     @Builder
-    public UserFollowingCountDto(String userUuid, Integer totalFollowingCount, String displayFollowingCount, Instant updatedAt) {
+    public UserFollowingCountDto(String userUuid, Integer followingCount, String displayFollowingCount, Instant updatedAt) {
         this.userUuid = userUuid;
-        this.totalFollowingCount = totalFollowingCount;
+        this.followingCount = followingCount;
         this.displayFollowingCount = displayFollowingCount;
         this.updatedAt = updatedAt;
     }
@@ -28,8 +28,8 @@ public class UserFollowingCountDto {
     public static UserFollowingCountDto from(UserFollowingCount userFollowingCount) {
         return UserFollowingCountDto.builder()
                 .userUuid(userFollowingCount.getUserUuid())
-                .totalFollowingCount(userFollowingCount.getTotalFollowingCount())
-                .displayFollowingCount(FollowCountDisplayPolicy.convert(userFollowingCount.getTotalFollowingCount()))
+                .followingCount(userFollowingCount.getFollowingCount())
+                .displayFollowingCount(FollowCountDisplayPolicy.convert(userFollowingCount.getFollowingCount()))
                 .updatedAt(userFollowingCount.getUpdatedAt())
                 .build();
     }

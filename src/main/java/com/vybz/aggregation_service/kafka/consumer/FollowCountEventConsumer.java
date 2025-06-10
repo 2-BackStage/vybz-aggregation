@@ -38,23 +38,23 @@ public class FollowCountEventConsumer {
         BuskerFollowerCount followerCount = buskerFollowerCountRepository.findByBuskerUuid(buskerUuid)
                 .orElse(BuskerFollowerCount.builder()
                         .buskerUuid(buskerUuid)
-                        .totalFollowerCount(0)
+                        .followerCount(0)
                         .build());
 
         followerCount.increaseCount();
         buskerFollowerCountRepository.save(followerCount);
-        log.info("✅ [버스커] uuid: {}, 팔로워 수: {}", followerCount.getBuskerUuid(), followerCount.getTotalFollowerCount());
+        log.info("✅ [버스커] uuid: {}, 팔로워 수: {}", followerCount.getBuskerUuid(), followerCount.getFollowerCount());
 
         // 2. 사용자 팔로잉 수 증가
         UserFollowingCount followingCount = userFollowingCountRepository.findByUserUuid(userUuid)
                 .orElse(UserFollowingCount.builder()
                         .userUuid(userUuid)
-                        .totalFollowingCount(0)
+                        .followingCount(0)
                         .build());
 
         followingCount.increaseCount();
         userFollowingCountRepository.save(followingCount);
-        log.info("✅ [사용자] uuid: {}, 팔로잉 수: {}", followingCount.getUserUuid(), followingCount.getTotalFollowingCount());
+        log.info("✅ [사용자] uuid: {}, 팔로잉 수: {}", followingCount.getUserUuid(), followingCount.getFollowingCount());
 
         redisTemplate.opsForSet().add(BUSKER_FOLLOWER_KEY, buskerUuid);
         redisTemplate.opsForSet().add(USER_FOLLOWING_KEY, userUuid);
@@ -75,23 +75,23 @@ public class FollowCountEventConsumer {
         BuskerFollowerCount followerCount = buskerFollowerCountRepository.findByBuskerUuid(buskerUuid)
                 .orElseGet(() -> BuskerFollowerCount.builder()
                         .buskerUuid(buskerUuid)
-                        .totalFollowerCount(0)
+                        .followerCount(0)
                         .build());
 
         followerCount.decreaseCount();
         buskerFollowerCountRepository.save(followerCount);
-        log.info("🛑 [버스커] uuid: {}, 팔로워 수 감소 후: {}", followerCount.getBuskerUuid(), followerCount.getTotalFollowerCount());
+        log.info("🛑 [버스커] uuid: {}, 팔로워 수 감소 후: {}", followerCount.getBuskerUuid(), followerCount.getFollowerCount());
 
         // 2. 사용자 팔로잉 수 감소
         UserFollowingCount followingCount = userFollowingCountRepository.findByUserUuid(userUuid)
                 .orElseGet(() -> UserFollowingCount.builder()
                         .userUuid(userUuid)
-                        .totalFollowingCount(0)
+                        .followingCount(0)
                         .build());
 
         followingCount.decreaseCount();
         userFollowingCountRepository.save(followingCount);
-        log.info("🛑 [사용자] uuid: {}, 팔로잉 수 감소 후: {}", followingCount.getUserUuid(), followingCount.getTotalFollowingCount());
+        log.info("🛑 [사용자] uuid: {}, 팔로잉 수 감소 후: {}", followingCount.getUserUuid(), followingCount.getFollowingCount());
 
         redisTemplate.opsForSet().add(BUSKER_FOLLOWER_KEY, buskerUuid);
         redisTemplate.opsForSet().add(USER_FOLLOWING_KEY, userUuid);

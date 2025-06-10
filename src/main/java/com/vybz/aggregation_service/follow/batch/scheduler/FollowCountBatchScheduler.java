@@ -19,7 +19,7 @@ public class FollowCountBatchScheduler {
     private final Job followAggregationJob;
     private final JobLauncher jobLauncher;
 
-    @Scheduled(fixedRate = 100000)
+    @Scheduled(fixedRate = 60000)
     public void runBuskerFollowerCountJob() {
         try {
             JobParameters jobParameters = new JobParametersBuilder()
