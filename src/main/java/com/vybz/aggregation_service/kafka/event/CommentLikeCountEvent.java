@@ -1,4 +1,15 @@
 package com.vybz.aggregation_service.kafka.event;
 
-public class CommentLikeEvent {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class CommentLikeCountEvent {
+    private String commentId;
+    private int totalLikeCount;
 }

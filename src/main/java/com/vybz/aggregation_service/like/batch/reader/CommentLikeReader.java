@@ -29,6 +29,8 @@ public class CommentLikeReader implements ItemReader<String> {
         }
         return commentIdIterator.hasNext() ? commentIdIterator.next() : null;
     }
-
-
 }
+
+
+
+
