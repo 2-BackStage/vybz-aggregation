@@ -28,8 +28,8 @@ public class UserFollowingCountDto {
     public static UserFollowingCountDto from(UserFollowingCount userFollowingCount) {
         return UserFollowingCountDto.builder()
                 .userUuid(userFollowingCount.getUserUuid())
-                .followingCount(userFollowingCount.getTotalFollowingCount())
-                .displayFollowingCount(FollowCountDisplayPolicy.convert(userFollowingCount.getTotalFollowingCount()))
+                .followingCount(userFollowingCount.getFollowingCount())
+                .displayFollowingCount(FollowCountDisplayPolicy.convert(userFollowingCount.getFollowingCount()))
                 .updatedAt(userFollowingCount.getUpdatedAt())
                 .build();
     }
