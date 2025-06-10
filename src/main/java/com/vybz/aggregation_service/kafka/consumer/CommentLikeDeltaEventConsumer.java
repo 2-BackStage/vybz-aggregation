@@ -13,7 +13,7 @@ import java.time.Instant;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class CommentLikeCountEventConsumer {
+public class CommentLikeDeltaEventConsumer {
 
     private static final String TOPIC_NAME = "comment-like-count";
     private static final String GROUP_ID = "comment-like-count-group";

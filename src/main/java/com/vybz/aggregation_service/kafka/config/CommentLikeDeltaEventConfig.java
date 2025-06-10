@@ -1,6 +1,6 @@
 package com.vybz.aggregation_service.kafka.config;
 
-import com.vybz.aggregation_service.kafka.event.CommentLikeCountEvent;
+import com.vybz.aggregation_service.kafka.event.CommentLikeDeltaEvent;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
@@ -13,26 +13,26 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 @Configuration
 @RequiredArgsConstructor
-public class CommentLIkeCountEventConfig {
+public class CommentLikeDeltaEventConfig {
 
     private final CommonKafkaConfig commonKafkaConfig;
 
     @Bean
-    public ConsumerFactory<String, CommentLikeCountEvent> commentLikeCountEventConsumerFactory() {
+    public ConsumerFactory<String, CommentLikeDeltaEvent> commentLikeDeltaEventConsumerFactory() {
         return new DefaultKafkaConsumerFactory<>(
                 commonKafkaConfig.commonConsumerConfigs(),
                 new StringDeserializer(),
                 new ErrorHandlingDeserializer<>(
-                        new JsonDeserializer<>(CommentLikeCountEvent.class, false)
+                        new JsonDeserializer<>(CommentLikeDeltaEvent.class, false)
                 )
         );
     }
 
     @Bean(name = "commentLikeCountKafkaListenerContainerFactory")
-    public ConcurrentKafkaListenerContainerFactory<String, CommentLikeCountEvent> commentLikeKafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, CommentLikeCountEvent> factory =
+    public ConcurrentKafkaListenerContainerFactory<String, CommentLikeDeltaEvent> commentLikeDeltaEventConcurrentKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, CommentLikeDeltaEvent> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(commentLikeCountEventConsumerFactory());
+        factory.setConsumerFactory(commentLikeDeltaEventConsumerFactory());
         return factory;
     }
 }
