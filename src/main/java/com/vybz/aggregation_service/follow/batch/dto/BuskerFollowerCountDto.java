@@ -13,14 +13,14 @@ import java.time.Instant;
 public class BuskerFollowerCountDto {
 
     private String buskerUuid;
-    private Integer totalFollowerCount;
+    private Integer followerCount;
     private String displayFollowerCount;
     private Instant updatedAt;
 
     @Builder
-    public BuskerFollowerCountDto(String buskerUuid, Integer totalFollowerCount, String displayFollowerCount, Instant updatedAt) {
+    public BuskerFollowerCountDto(String buskerUuid, Integer followerCount, String displayFollowerCount, Instant updatedAt) {
         this.buskerUuid = buskerUuid;
-        this.totalFollowerCount = totalFollowerCount;
+        this.followerCount = followerCount;
         this.displayFollowerCount = displayFollowerCount;
         this.updatedAt = updatedAt;
     }
@@ -28,8 +28,8 @@ public class BuskerFollowerCountDto {
     public static BuskerFollowerCountDto from(BuskerFollowerCount buskerFollowerCount) {
         return BuskerFollowerCountDto.builder()
                 .buskerUuid(buskerFollowerCount.getBuskerUuid())
-                .totalFollowerCount(buskerFollowerCount.getTotalFollowerCount())
-                .displayFollowerCount(FollowCountDisplayPolicy.convert(buskerFollowerCount.getTotalFollowerCount()))
+                .followerCount(buskerFollowerCount.getFollowerCount())
+                .displayFollowerCount(FollowCountDisplayPolicy.convert(buskerFollowerCount.getFollowerCount()))
                 .build();
     }
 

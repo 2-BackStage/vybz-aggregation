@@ -24,12 +24,12 @@ public class UserFollowingCountWriter implements ItemWriter<UserFollowingCountDt
         if (items.isEmpty())
             return;
 
-        BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.UNORDERED, "user_my_page_read");
+        BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.UNORDERED, "user_info_read");
 
         for (UserFollowingCountDto item : items) {
             Query query = new Query(Criteria.where("userUuid").is(item.getUserUuid()));
             Update update = new Update()
-                    .set("totalFollowingCount", item.getTotalFollowingCount())
+                    .set("followingCount", item.getFollowingCount())
                     .set("displayFollowingCount", item.getDisplayFollowingCount())
                     .set("updatedAt", item.getUpdatedAt());
             bulkOps.upsert(query, update);

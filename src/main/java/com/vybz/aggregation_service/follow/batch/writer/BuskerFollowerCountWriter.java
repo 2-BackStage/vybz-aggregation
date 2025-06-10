@@ -26,12 +26,12 @@ public class BuskerFollowerCountWriter implements ItemWriter<BuskerFollowerCount
         if (items.isEmpty())
             return;
 
-        BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.UNORDERED, "busker_my_page_read");
+        BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.UNORDERED, "busker_info_read");
 
         for (BuskerFollowerCountDto item : items) {
             Query query = new Query(Criteria.where("buskerUuid").is(item.getBuskerUuid()));
             Update update = new Update()
-                    .set("totalFollowerCount", item.getTotalFollowerCount())
+                    .set("followerCount", item.getFollowerCount())
                     .set("displayFollowerCount", item.getDisplayFollowerCount())
                     .set("updatedAt", Instant.now());
 

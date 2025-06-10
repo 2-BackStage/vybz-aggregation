@@ -22,7 +22,7 @@ public class UserFollowingCountProcessor implements ItemProcessor<String, UserFo
         UserFollowingCount userFollowingCount = userFollowingCountRepository.findByUserUuid(userUuid)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_USER));
 
-        if (userFollowingCount.getTotalFollowingCount() == null || userFollowingCount.getTotalFollowingCount() <= 0) {
+        if (userFollowingCount.getFollowingCount() == null || userFollowingCount.getFollowingCount() <= 0) {
             log.warn("❌ 팔로잉 수 0 이하인 사용자 제외: {}", userUuid);
             return null;
         }

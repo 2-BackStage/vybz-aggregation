@@ -7,12 +7,12 @@ import lombok.Getter;
 public class ResponseBuskerFollowerCountVo {
 
     private String buskerUuid;
-    private int totalFollowerCount;
+    private int followerCount;
 
     @Builder
-    public ResponseBuskerFollowerCountVo(String buskerUuid, int totalFollowerCount) {
+    public ResponseBuskerFollowerCountVo(String buskerUuid, int followerCount) {
         this.buskerUuid = buskerUuid;
-        this.totalFollowerCount = totalFollowerCount;
+        this.followerCount = followerCount;
     }
 
 }

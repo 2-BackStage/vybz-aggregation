@@ -22,12 +22,12 @@ public class BuskerFollowerCountProcessor implements ItemProcessor<String, Buske
         BuskerFollowerCount count = buskerFollowerCountRepository.findByBuskerUuid(buskerUuid)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_BUSKER));
 
-        if (count == null || count.getTotalFollowerCount() == null || count.getTotalFollowerCount() <= 0) {
+        if (count == null || count.getFollowerCount() == null || count.getFollowerCount() <= 0) {
             log.warn("❌ 팔로워 수 없음 또는 유효하지 않은 버스커: {}", buskerUuid);
             return null;
         }
 
-        log.info("✅ 집계 대상 버스커 처리: {}, 팔로워 수: {}", buskerUuid, count.getTotalFollowerCount());
+        log.info("✅ 집계 대상 버스커 처리: {}, 팔로워 수: {}", buskerUuid, count.getFollowerCount());
         return BuskerFollowerCountDto.from(count);
     }
 }
