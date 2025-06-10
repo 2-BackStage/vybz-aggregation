@@ -1,6 +1,6 @@
 package com.vybz.aggregation_service.kafka.consumer;
 
-import com.vybz.aggregation_service.kafka.event.CommentLikeCountEvent;
+import com.vybz.aggregation_service.kafka.event.CommentLikeDeltaEvent;
 import com.vybz.aggregation_service.like.domain.CommentLikeCount;
 import com.vybz.aggregation_service.like.infrastructure.CommentLikeCountRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +13,9 @@ import java.time.Instant;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class CommentLikeCountEventConsumer {
+public class CommentLikeDeltaEventConsumer {
 
-    private static final String TOPIC_NAME = "comment-like-count";
+    private static final String TOPIC_NAME = "comment-delta-count";
     private static final String GROUP_ID = "comment-like-count-group";
 
     private final CommentLikeCountRepository commentLikeCountRepository;
@@ -25,7 +25,7 @@ public class CommentLikeCountEventConsumer {
             groupId = GROUP_ID,
             containerFactory = "commentLikeCountKafkaListenerContainerFactory"
     )
-    public void consumeCommentLikeCountEvent(CommentLikeCountEvent event) {
+    public void consumeCommentLikeCountEvent(CommentLikeDeltaEvent event) {
         if (event.getDelta() == 0) {
             log.info("🚫 [무시] delta=0 이벤트: commentId={}", event.getCommentId());
             return;
@@ -38,13 +38,13 @@ public class CommentLikeCountEventConsumer {
 
 
 
-    private void updateCommentLikeCount(CommentLikeCount existing, CommentLikeCountEvent event) {
+    private void updateCommentLikeCount(CommentLikeCount existing, CommentLikeDeltaEvent event) {
         existing.updateCount(event.getDelta());
         commentLikeCountRepository.save(existing);
         log.info("✅ 댓글 좋아요 수 업데이트 완료: commentId={}, count={}", existing.getCommentId(), existing.getTotalLikeCount());
     }
 
-    private void upsertCommentLikeCount(CommentLikeCountEvent event) {
+    private void upsertCommentLikeCount(CommentLikeDeltaEvent event) {
         commentLikeCountRepository.findByCommentId(event.getCommentId())
                 .ifPresentOrElse(
                         existing -> UpdateCommentLikeCount(existing, event),
@@ -52,13 +52,13 @@ public class CommentLikeCountEventConsumer {
                 );
     }
 
-    private void UpdateCommentLikeCount(CommentLikeCount existing, CommentLikeCountEvent event) {
+    private void UpdateCommentLikeCount(CommentLikeCount existing, CommentLikeDeltaEvent event) {
         existing.updateCount(event.getDelta());
         commentLikeCountRepository.save(existing);
         log.info("✅ 댓글 좋아요 수 업데이트 완료: commentId={}, count={}", existing.getCommentId(), existing.getTotalLikeCount());
     }
 
-    private void insertNewCommentLikeCount(CommentLikeCountEvent event) {
+    private void insertNewCommentLikeCount(CommentLikeDeltaEvent event) {
         CommentLikeCount newCount = CommentLikeCount.builder()
                 .commentId(event.getCommentId())
                 .totalLikeCount(Math.max(0, event.getDelta()))

@@ -18,7 +18,7 @@ public class FeedLikeScheduler {
     private final JobLauncher jobLauncher;
     private final JobRegistry jobRegistry;
 
-    @Scheduled(cron = "0/20 * * * * *")
+    @Scheduled(cron = "0 * * * * *")
     public void runFeedLikeCountJob(){
         try {
             Job job = jobRegistry.getJob("feedLikeCountJob");
