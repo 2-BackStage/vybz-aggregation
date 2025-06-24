@@ -26,7 +26,7 @@ public class LiveViewCountWriter implements ItemWriter<LiveViewCount> {
 
         for (LiveViewCount newCount : items) {
             String streamKey = newCount.getStreamKey();
-            Integer incomingCount = newCount.getTotalViewCount();
+            Integer incomingCount = newCount.getTotalViewerCount();
             String updatedAt = newCount.getUpdatedAt().toString();
 
             log.info("➡️ 처리 중: streamKey={}, incomingCount={}, updatedAt={}", streamKey, incomingCount, updatedAt);
@@ -34,15 +34,15 @@ public class LiveViewCountWriter implements ItemWriter<LiveViewCount> {
             liveViewCountRepository.findById(streamKey)
                     .ifPresentOrElse(
                             existing -> {
-                                int before = existing.getTotalViewCount();
-                                int after = newCount.getTotalViewCount();
+                                int before = existing.getTotalViewerCount();
+                                int after = newCount.getTotalViewerCount();
 
                                 log.info("🔄 기존 값 발견: streamKey={}, 기존 count={}, 새로운 count={}", streamKey, before, after);
 
                                 LiveViewCount updated = LiveViewCount.builder()
                                         .id(existing.getId())
                                         .streamKey(existing.getStreamKey())
-                                        .totalViewCount(after)
+                                        .totalViewerCount(after)
                                         .updatedAt(newCount.getUpdatedAt())
                                         .build();
 
@@ -64,10 +64,10 @@ public class LiveViewCountWriter implements ItemWriter<LiveViewCount> {
     private void sendKafka(LiveViewCount count) {
         LiveViewCountResultEvent event = LiveViewCountResultEvent.builder()
                 .streamKey(count.getStreamKey())
-                .totalViewCount(count.getTotalViewCount())
+                .totalViewerCount(count.getTotalViewerCount())
                 .build();
 
         liveViewCountResultEventProducer.sendLiveViewCountEvent(event);
-        log.info("📤 Kafka 전송 완료: streamKey={}, totalViewCount={}", count.getStreamKey(), count.getTotalViewCount());
+        log.info("📤 Kafka 전송 완료: streamKey={}, totalViewerCount={}", count.getStreamKey(), count.getTotalViewerCount());
     }
 }

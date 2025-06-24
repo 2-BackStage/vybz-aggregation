@@ -12,6 +12,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -32,8 +33,7 @@ public class LiveLikeDeltaEventConsumer {
         String streamKey = event.getStreamKey();
 
         LiveLikeCount existing = liveLikeRepository.findById(streamKey).orElse(null);
-
-        int updatedCount = existing != null ? existing.getTotalLikeCount() + 1 : 1;
+        int updatedCount = (existing != null ? existing.getTotalLikeCount() : 0) + 1;
 
         if (updatedCount < 1000) {
             LiveLikeCount toSave = LiveLikeCount.builder()
@@ -45,12 +45,14 @@ public class LiveLikeDeltaEventConsumer {
 
             liveLikeRepository.save(toSave);
             sendKafka(toSave);
+
             log.info("✅ 실시간 업데이트: streamKey={}, totalLikeCount={}", streamKey, updatedCount);
 
         } else {
-            Boolean alreadyInSet = stringRedisTemplate.opsForSet().isMember("live:like:batch:queue", streamKey);
+            Boolean alreadyInSet = stringRedisTemplate.opsForSet().isMember(LIVE_LIKE_BATCH_SET_KEY, streamKey);
+
             if (alreadyInSet == null || !alreadyInSet) {
-                stringRedisTemplate.opsForSet().add("live:like:batch:queue", streamKey);
+                stringRedisTemplate.opsForSet().add(LIVE_LIKE_BATCH_SET_KEY, streamKey);
                 log.info("📥 배치 대상 streamKey 추가됨 → {}", streamKey);
             } else {
                 log.info("⏳ 이미 배치 대상에 등록됨 → {}", streamKey);
