@@ -1,6 +1,6 @@
 package com.vybz.aggregation_service.kafka.producer;
 
-import com.vybz.aggregation_service.kafka.event.LiveLikeCountResultEvent;
+import com.vybz.aggregation_service.kafka.event.LiveViewCountResultEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -12,17 +12,17 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class LiveLikeCountResultEventProducer {
+public class LiveViewCountResultEventProducer {
 
-    private final KafkaTemplate<String, LiveLikeCountResultEvent> liveLikeCountResultEventKafkaTemplate;
-    private static final String TOPIC = "live-like-count";
+    private final KafkaTemplate<String, LiveViewCountResultEvent> liveViewCountResultEventKafkaTemplate;
+    private static final String TOPIC = "live-view-count-result";
 
-    public void sendLiveLikeCountEvent(LiveLikeCountResultEvent event) {
-        log.info("📤 Kafka 전송 시작: topic='{}', streamKey={}, totalLikeCount={}",
-                TOPIC, event.getStreamKey(), event.getTotalLikeCount());
+    public void sendLiveViewCountEvent(LiveViewCountResultEvent event) {
+        log.info("📤 Kafka 전송 시작: topic='{}', streamKey={}, totalViewerCount={}",
+                TOPIC, event.getStreamKey(), event.getTotalViewerCount());
 
-        CompletableFuture<SendResult<String, LiveLikeCountResultEvent>> future =
-                liveLikeCountResultEventKafkaTemplate.send(TOPIC, event.getStreamKey(), event);
+        CompletableFuture<SendResult<String, LiveViewCountResultEvent>> future =
+                liveViewCountResultEventKafkaTemplate.send(TOPIC, event);
 
         future.whenComplete((result, ex) -> {
             if (ex != null) {
