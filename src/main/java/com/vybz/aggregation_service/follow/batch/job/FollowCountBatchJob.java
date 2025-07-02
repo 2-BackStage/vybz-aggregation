@@ -44,7 +44,7 @@ public class FollowCountBatchJob {
     @Bean
     public Step buskerFollowerCountStep() {
         return new StepBuilder("buskerFollowerCountStep", jobRepository)
-                .<String, BuskerFollowerCountDto>chunk(100, transactionManager)
+                .<String, BuskerFollowerCountDto>chunk(200, transactionManager)
                 .reader(buskerReader)
                 .processor(buskerProcessor)
                 .writer(buskerWriter)
@@ -54,7 +54,7 @@ public class FollowCountBatchJob {
     @Bean
     public Step userFollowingCountStep() {
         return new StepBuilder("userFollowingCountStep", jobRepository)
-                .<String, UserFollowingCountDto>chunk(100, transactionManager)
+                .<String, UserFollowingCountDto>chunk(200, transactionManager)
                 .reader(userReader)
                 .processor(userProcessor)
                 .writer(userWriter)
